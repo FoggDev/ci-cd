@@ -22,8 +22,8 @@ jobs:
 
       - name: Build and analyze
         run: |
-          npm run build -- --sourcemap
-          npx source-map-explorer "dist/assets/*.js" --html bundle-report.html --gzip
+          npm run build:analyze
+          test -f bundle-report.html
 
       - name: Upload bundle report
         uses: actions/upload-artifact@v4
