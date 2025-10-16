@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:analyze": "tsc && ANALYZE=true vite build",
+    "size-limit": "size-limit",
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
     "test": "jest",
@@ -36,6 +37,14 @@
     "ts-jest": "29.1.2",
     "typescript": "5.5.3",
     "vite": "5.3.4",
-    "rollup-plugin-visualizer": "5.12.0"
-  }
+    "rollup-plugin-visualizer": "5.12.0",
+    "size-limit": "11.1.5"
+  },
+  "size-limit": [
+    {
+      "name": "App bundle",
+      "path": "dist/assets/*.js",
+      "limit": "200 KB"
+    }
+  ]
 }
