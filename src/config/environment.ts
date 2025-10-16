@@ -1,4 +1,4 @@
-interface EnvironmentConfig {
+export interface EnvironmentConfig {
   apiUrl: string;
   environment: 'development' | 'staging' | 'production';
   features: {
@@ -35,4 +35,3 @@ function getEnvironmentConfig(): EnvironmentConfig {
 }
 
 export const config = getEnvironmentConfig();
-export type { EnvironmentConfig };
