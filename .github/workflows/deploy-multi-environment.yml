@@ -37,7 +37,7 @@ jobs:
 
       - name: Install dependencies
         if: github.ref == format('refs/heads/{0}', matrix.branch)
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build for ${{ matrix.environment }}
         if: github.ref == format('refs/heads/{0}', matrix.branch)
