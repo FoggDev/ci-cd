@@ -1,7 +1,7 @@
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 export function App() {
-  const flags = useFeatureFlags();
+  const { flags, hasError } = useFeatureFlags();
 
   return (
     <div>
@@ -21,10 +21,10 @@ export function App() {
       </section>
       {flags.advancedAnalytics ? (
         <div>Analytics enabled</div>
+      ) : hasError ? (
+        <div data-testid="error-message">Error loading metrics</div>
       ) : (
-        <div data-testid="error-message" hidden>
-          Error loading metrics
-        </div>
+        <div data-testid="beta-message">Analytics disabled for this environment</div>
       )}
     </div>
   );

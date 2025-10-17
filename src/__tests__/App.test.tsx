@@ -50,7 +50,9 @@ describe('App', () => {
     expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Dashboard');
     expect(screen.getAllByTestId('metric-card')).toHaveLength(4);
     expect(fetchMock).toHaveBeenCalledWith('http://localhost:3001/feature-flags');
+
     expect(await screen.findByText('Analytics enabled')).toBeInTheDocument();
+    expect(screen.queryByTestId('error-message')).not.toBeInTheDocument();
   });
 
   it('falls back to default flags when the API request fails', async () => {
@@ -61,9 +63,8 @@ describe('App', () => {
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
 
-    const errorMessage = screen.getByTestId('error-message');
-    expect(errorMessage).toBeInTheDocument();
-    expect(errorMessage).toHaveAttribute('hidden');
+    const errorMessage = await screen.findByTestId('error-message');
+    expect(errorMessage).toBeVisible();
     expect(consoleErrorSpy).toHaveBeenCalled();
 
     consoleErrorSpy.mockRestore();
