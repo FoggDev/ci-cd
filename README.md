@@ -17,7 +17,6 @@ This repository implements the full set of configuration snippets described in t
 All workflows from the chapter are located in `.github/workflows/`:
 
 - `ci-pipeline.yml` – Executes linting, type-checking, tests, and builds on pull requests and pushes.
-- `bundle-analysis.yml` – Generates bundle analysis reports and comments on pull requests.
 - `deploy.yml` – Deploys to staging or production depending on the target branch.
 - `e2e-tests.yml` – Runs Playwright end-to-end tests.
 - `deploy-multi-environment.yml` – Demonstrates matrix-based multi-environment deployments.
