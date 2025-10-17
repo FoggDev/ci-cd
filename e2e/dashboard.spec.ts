@@ -3,7 +3,8 @@ import { test, expect } from '@playwright/test';
 test.describe('Dashboard', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.locator('[data-testid="dashboard-title"]')).toBeVisible();
   });
 
   test('should display user dashboard with metrics', async ({ page }) => {
@@ -26,7 +27,7 @@ test.describe('Dashboard', () => {
   });
 
   test('should handle API errors gracefully', async ({ page }) => {
-    await page.route('**/api/metrics', route =>
+    await page.route('**/api/feature-flags', route => 
       route.fulfill({ status: 500 })
     );
 

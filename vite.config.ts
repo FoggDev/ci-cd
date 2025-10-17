@@ -5,7 +5,30 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 const shouldAnalyze = process.env.ANALYZE === 'true';
 
-const plugins: PluginOption[] = [react()];
+const featureFlagsResponse = JSON.stringify({
+  newDashboard: true,
+  experimentalEditor: false,
+  advancedAnalytics: true,
+});
+
+const mockFeatureFlagsPlugin: PluginOption = {
+  name: 'mock-feature-flags-api',
+  apply: 'serve',
+  configureServer(server) {
+    server.middlewares.use('/api/feature-flags', (_req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(featureFlagsResponse);
+    });
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use('/api/feature-flags', (_req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(featureFlagsResponse);
+    });
+  },
+};
+
+const plugins: PluginOption[] = [react(), mockFeatureFlagsPlugin];
 
 if (shouldAnalyze) {
   plugins.push(

@@ -16,7 +16,7 @@ function getEnvironmentConfig(): EnvironmentConfig {
   const env = process.env.REACT_APP_ENVIRONMENT || 'development';
 
   const baseConfig: EnvironmentConfig = {
-    apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:3001',
+    apiUrl: process.env.REACT_APP_API_URL || '/api',
     environment: env as EnvironmentConfig['environment'],
     features: {
       enableAnalytics: env === 'production',

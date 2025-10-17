@@ -49,7 +49,7 @@ describe('App', () => {
 
     expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Dashboard');
     expect(screen.getAllByTestId('metric-card')).toHaveLength(4);
-    expect(fetchMock).toHaveBeenCalledWith('http://localhost:3001/feature-flags');
+    expect(fetchMock).toHaveBeenCalledWith('/api/feature-flags');
 
     expect(await screen.findByText('Analytics enabled')).toBeInTheDocument();
     expect(screen.queryByTestId('error-message')).not.toBeInTheDocument();

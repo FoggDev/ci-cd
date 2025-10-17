@@ -14,7 +14,7 @@ describe('environment configuration', () => {
     const { config } = module;
 
     expect(config.environment).toBe('development');
-    expect(config.apiUrl).toBe('http://localhost:3001');
+    expect(config.apiUrl).toBe('/api');
     expect(config.features.debugMode).toBe(true);
   });
 
