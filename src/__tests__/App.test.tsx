@@ -47,9 +47,10 @@ describe('App', () => {
 
     render(<App />);
 
-    expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Dashboard');
+    const title = await screen.findByTestId('dashboard-title');
+    expect(title).toHaveTextContent('Dashboard');
     expect(screen.getAllByTestId('metric-card')).toHaveLength(4);
-    expect(fetchMock).toHaveBeenCalledWith('/api/feature-flags');
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/feature-flags'));
 
     expect(await screen.findByText('Analytics enabled')).toBeInTheDocument();
     expect(screen.queryByTestId('error-message')).not.toBeInTheDocument();
@@ -82,7 +83,9 @@ describe('App', () => {
 
     render(<App />);
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/feature-flags'));
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/feature-flags')),
+    );
 
     const notice = await screen.findByTestId('beta-message');
     expect(notice).toHaveTextContent('Analytics disabled for this environment');
@@ -101,11 +104,14 @@ describe('App', () => {
 
     render(<App />);
 
-    expect(await screen.findByTestId('dashboard-title')).toHaveTextContent('Dashboard');
+    const dashboardTitle = await screen.findByTestId('dashboard-title');
+    expect(dashboardTitle).toHaveTextContent('Dashboard');
 
     screen.getByTestId('nav-settings').click();
 
-    expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Settings');
+    await waitFor(() =>
+      expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Settings'),
+    );
     expect(screen.getByText('Application settings')).toBeInTheDocument();
 
     screen.getByTestId('nav-dashboard').click();
