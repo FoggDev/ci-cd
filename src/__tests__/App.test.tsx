@@ -69,4 +69,50 @@ describe('App', () => {
 
     consoleErrorSpy.mockRestore();
   });
+
+  it('renders an environment notice when analytics are intentionally disabled', async () => {
+    const fetchMock = mockGlobalFetch({
+      ok: true,
+      json: async () => ({
+        newDashboard: true,
+        experimentalEditor: true,
+        advancedAnalytics: false,
+      }),
+    });
+
+    render(<App />);
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/feature-flags'));
+
+    const notice = await screen.findByTestId('beta-message');
+    expect(notice).toHaveTextContent('Analytics disabled for this environment');
+    expect(screen.queryByTestId('error-message')).not.toBeInTheDocument();
+  });
+
+  it('navigates between dashboard and settings views via the navigation buttons', async () => {
+    mockGlobalFetch({
+      ok: true,
+      json: async () => ({
+        newDashboard: true,
+        experimentalEditor: true,
+        advancedAnalytics: true,
+      }),
+    });
+
+    render(<App />);
+
+    expect(await screen.findByTestId('dashboard-title')).toHaveTextContent('Dashboard');
+
+    screen.getByTestId('nav-settings').click();
+
+    expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Settings');
+    expect(screen.getByText('Application settings')).toBeInTheDocument();
+
+    screen.getByTestId('nav-dashboard').click();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dashboard-title')).toHaveTextContent('Dashboard'),
+    );
+    expect(screen.getAllByTestId('metric-card')).toHaveLength(4);
+  });
 });
