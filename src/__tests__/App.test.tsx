@@ -1,9 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { App } from '@/App';
 
-type FetchResponse = {
-  json: () => Promise<unknown>;
-};
+type FetchResponse = Pick<Response, 'ok' | 'status' | 'json'>;
 
 type FetchMock = jest.Mock<Promise<FetchResponse>, [RequestInfo | URL, RequestInit?]>;
 
@@ -18,6 +16,8 @@ function mockGlobalFetch(response: Partial<FetchResponse> | Error) {
   }
 
   const fetchMock: FetchMock = jest.fn().mockResolvedValue({
+    ok: true,
+    status: 200,
     json: async () => ({}),
     ...response,
   });
